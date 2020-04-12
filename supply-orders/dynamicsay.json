@@ -1,0 +1,47 @@
+
+  {
+    "actions": [
+      {
+        "collect": {
+          "name": "collect_clothes_order",
+          "questions": [
+            {
+              "question": "What is your first name?",
+              "name": "first_name",
+              "type": "Twilio.FIRST_NAME"
+            },
+            {
+              "question": "What type of clothes would you like?",
+              "name": "clothes_type",
+              "type": "Clothing",
+              "validate": {
+                "on_failure": {
+                  "messages": [
+                    {
+                      "say": "Sorry, that's not a clothing type we have. We have shirts, shoes, pants, skirts, and dresses."
+                    }
+                  ],
+                  "repeat_question": true
+                },
+                "on_success": {
+                  "say": "Great, I've got the clothing type you want."
+                },
+                "max_attempts": {
+                  "redirect": "task://collect_fallback",
+                  "num_attempts": 3
+                }
+              }
+            },
+            {
+              "question": "How many would you like to order?",
+              "name": "num_clothes",
+              "type": "Twilio.NUMBER"
+            }
+          ],
+          "on_complete": {
+            "redirect": "https://4d276a93.ngrok.io/collect"
+          }
+        }
+      }
+    ]
+  }
